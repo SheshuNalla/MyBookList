@@ -33,16 +33,28 @@ class UI{
         const list = document.getElementById("book-list");
 
         const row = document.createElement("tr");
-
+        row.classList.add("border", "border-slate-300")
         row.innerHTML = `
-        <td class="text-xl font-semibold p-2">${book.title}</td>
-        <td class="text-xl font-semibold p-2">${book.author}</td>
-        <td class="text-xl font-semibold p-2">${book.isbn}</td>
-        <td class="text-xl font-semibold p-2"><a href="#" class="bg-red-500 text-white
+        <td class="text-xl font-semibold p-4 ">${book.title}</td>
+        <td class="text-xl font-semibold p-4 ">${book.author}</td>
+        <td class="text-xl font-semibold p-4 ">${book.isbn}</td>
+        <td class="text-xl p-4 "><a href="#" class="bg-red-500 text-white p-2
         delete">X</a></td>
         `;
 
         list.appendChild(row);
+    }
+
+    static clearFields(){
+        const title = document.querySelector("#title").value = "";
+        const author = document.querySelector("#author").value = "";
+        const isbn = document.querySelector("#isbn").value = "";
+    }
+
+    static deleteBook(el){
+        if(el.classList.contains("delete")){
+            el.parentElement.parentElement.remove();
+        }
     }
 }
 
@@ -52,5 +64,24 @@ class UI{
 document.addEventListener("DOMContentLoaded", UI.displayBooks)
 
 // Event : Add a Book
+document.querySelector("#book-form").addEventListener("submit", (e) => {
+    // prevent actual submit 
+    e.preventDefault();
+
+    // Get Form Values
+    const title = document.querySelector("#title").value;
+    const author = document.querySelector("#author").value;
+    const isbn = document.querySelector("#isbn").value;
+
+    const book = new Book(title, author, isbn);
+
+    UI.addBookToList(book);
+
+    UI.clearFields();
+})
 
 // Event : Remove a Book
+
+document.querySelector("#book-list").addEventListener("click", (e) => {
+    UI.deleteBook(e.target)
+})
