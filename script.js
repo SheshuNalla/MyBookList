@@ -92,16 +92,16 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
         UI.showAlert("Please fill in all fields", "red");
     }else{
         //Intatiate Book
-    const book = new Book(title, author, isbn);
+        const book = new Book(title, author, isbn);
 
-    // Add Book to UI
-    UI.addBookToList(book);
+        // Add Book to UI
+        UI.addBookToList(book);
 
-    // Success message
-    UI.showAlert("Book Added", "green")
+        // Success message
+        UI.showAlert("Book Added", "green")
 
-    //Clear Fields
-    UI.clearFields();
+        //Clear Fields
+        UI.clearFields();
     }
 
     
@@ -111,6 +111,6 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 
 document.querySelector("#book-list").addEventListener("click", (e) => {
     UI.deleteBook(e.target)
-
+    // Removed message
     UI.showAlert("Book Removed", "green")
 })
