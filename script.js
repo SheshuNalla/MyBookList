@@ -10,21 +10,8 @@ class Book{
 // UI class : Handles UI Tasks
 class UI{
     static displayBooks(){
-        const storedBooks = [
-            {
-                title : "Book One",
-                author : "John",
-                isbn : 1234
-            },
-            
-            {
-                title : "Book Two",
-                author : "Jenny",
-                isbn : 5678
-            }
-        ];
 
-        const books = storedBooks;
+        const books = Store.getBooks();
 
         books.forEach((book) => UI.addBookToList(book));
     }
@@ -73,6 +60,35 @@ class UI{
 }
 
 // Storage class : Handles storage
+class Store{
+    static getBooks(){
+        let books;
+        if(localStorage.getItem("books") === null){
+            books = [];
+        }else{
+            books = JSON.parse(localStorage.getItem("books"));
+        }
+
+        return books;
+    }
+    static addBook(book){
+        const books = Store.getBooks();
+        books.push(book);
+        localStorage.setItem("books", JSON.stringify(books));
+
+    }
+    static removeBook(isbn){
+        const books = Store.getBooks();
+
+        books.forEach((book, index) => {
+            if(book.isbn === isbn){
+                books.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem("books", JSON.stringify(books));
+    }
+}
 
 // Event : Display Books
 document.addEventListener("DOMContentLoaded", UI.displayBooks)
@@ -97,6 +113,9 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
         // Add Book to UI
         UI.addBookToList(book);
 
+        // Add Book to store
+        Store.addBook(book);
+
         // Success message
         UI.showAlert("Book Added", "green")
 
@@ -108,9 +127,12 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 })
 
 // Event : Remove a Book
-
 document.querySelector("#book-list").addEventListener("click", (e) => {
     UI.deleteBook(e.target)
+
+    // Remove from store
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
+
     // Removed message
     UI.showAlert("Book Removed", "green")
 })
