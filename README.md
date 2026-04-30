@@ -16,6 +16,6 @@
     - Logo
     - Heading
 * -Body
-    - Book form for validate the book
-    - Add book button
-    - and the table for the listed book items
+    - Book form to  validate the book
+    - "Add book" button
+    - The table for the listed book items
