@@ -158,7 +158,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
         //Intatiate Book
         const book = new Book(title, author, isbn);
         if(submitBtnValue === "Add Book"){
-             // Add Book to UI
+                // Add Book to UI
                 UI.addBookToList(book);
 
                 // Add Book to store
@@ -166,6 +166,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 
                 // Success message
                 UI.showAlert("Book Added", "green")
+                UI.clearFields();
         }else{
             // Edit Mode
             Store.updateBook(book);
@@ -178,7 +179,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
     }
 })
 
-// Event : Remove a Book
+// Event : Remove / Edit a Book
 document.querySelector("#book-list").addEventListener("click", (e) => {
     
     if(e.target.classList.contains("delete")){
@@ -190,7 +191,8 @@ document.querySelector("#book-list").addEventListener("click", (e) => {
         // Removed message
         UI.showAlert("Book Removed", "green")
     }
-    //edit
+
+    //Edit a book
     const editBtn = e.target.closest(".edit");
     if(editBtn){
         UI.editBook(editBtn);
