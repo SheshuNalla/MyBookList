@@ -93,6 +93,28 @@ class UI{
         submitBtn.value = "Add Book";
 
     }
+    static searchBooks(e){
+        // input to search
+        const searchedTerm = e.target.value.toLowerCase();
+        
+        // Get the books from the storage
+        const books = Store.getBooks();
+
+        // filter method to find matches
+        const filteredBooks = books.filter(book => {
+            return(
+                book.title.toLowerCase().includes(searchedTerm) ||
+                book.author.toLowerCase().includes(searchedTerm) ||
+                book.isbn.includes(searchedTerm)
+            );
+        });
+        
+        // Clear the current UI
+        document.getElementById("book-list").innerHTML = "";
+
+        //Re-display the only filtered books
+        filteredBooks.forEach(book => UI.addBookToList(book))
+    }
 }
 
 // Storage class : Handles storage
@@ -198,3 +220,9 @@ document.querySelector("#book-list").addEventListener("click", (e) => {
         UI.editBook(editBtn);
     }
 });
+
+// Event : Search / Filter books
+
+document.querySelector(".search").addEventListener("input", (e) => {
+    UI.searchBooks(e);
+})
